@@ -1,0 +1,50 @@
+import os
+from collections import Counter
+
+def freqQuery(queries):
+    freq = Counter()
+    cnt = Counter()
+    result = []
+    for action, value in queries:
+        if action == 1:
+            cnt[ freq[value] ] -= 1
+            freq[value] += 1
+            cnt[ freq[value] ] += 1
+        elif action == 2:
+            if freq[value] > 0:
+                cnt[ freq[value] ] -= 1
+                freq[value] -= 1
+                cnt[ freq[value] ] += 1
+        else:
+            result.append(1 if cnt[value] > 0 else 0)
+    return result
+
+if __name__ == '__main__':
+    queries = []
+    for _ in xrange(int(raw_input().strip())):
+        queries.append(map(int, raw_input().rstrip().split()))
+    ans = freqQuery(queries)
+    with open(os.environ['OUTPUT_PATH'], 'w') as fptr:
+        fptr.write('\n'.join(map(str, ans)))
+        fptr.write('\n')
+
+# def freqQuery(queries):
+# 	ans=list()
+# 	dic = dict()
+# 	for i in queries:
+# 		if i[0]==1:
+# 			if i[1] not in dic:
+# 				dic[i[1]] = 1
+# 			else:	
+# 				dic[i[1]] += 1
+# 		if i[0]==2:
+# 			if i[1] in dic and dic[i[1]]>1:
+# 				dic[i[1]] -= 1
+# 			elif i[1] in dic and dic[i[1]]==1:
+# 				del dic[i[1]]	
+# 		if i[0]==3:
+# 			if i[1] in dic.values():
+# 				ans.append(1)
+# 			else:
+# 				ans.append(0)	
+# 	return ans		
